@@ -13,6 +13,9 @@
     ],
     "require": {
         "slim/slim": "^4.8",
-        "slim/psr7": "^1.4"
+        "slim/psr7": "^1.4",
+        "php-di/php-di": "^6.3",
+        "twig/twig": "^3.3",
+        "slim/twig-view": "^3.2"
     }
 }
