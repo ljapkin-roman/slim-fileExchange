@@ -1,8 +1,13 @@
 <?php
+use Twig\Loader\FilesystemLoader;
 class Experiment
 {
    public static $value;
 
 }
 $expo = new Experiment();
-echo $expo->get('value');
+$file = '../templates';
+echo is_dir($file);
+
+
+
