@@ -18,4 +18,6 @@ $app->get('/', function(Request $request, Response $response) {
     $response->getBody()->write("slim is there");
     return $response;
 });
+$app->get('/hello', \App\Action\HelloAction::class);
+
 $app->run();
