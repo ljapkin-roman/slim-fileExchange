@@ -5,10 +5,13 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Views\Twig;
 use Slim\Views\TwigMiddleware;
 require '../vendor/autoload.php';
+require '../config/eloquent.php';
 $container = new \DI\Container();
 $settings = require __DIR__ . '/../app/settings.php';
 $settings($container);
 AppFactory::setContainer($container);
+
+
 
 $currentPath = __DIR__ . '/../templates/';
 $container->set('view', function () {

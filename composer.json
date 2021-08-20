@@ -3,7 +3,10 @@
     "autoload": {
         "psr-4": {
             "Roma\\Slim\\": "src/"
-        }
+        },
+        "classmap": [
+            "classes"
+        ]
     },
     "authors": [
         {
@@ -16,6 +19,7 @@
         "slim/psr7": "^1.4",
         "php-di/php-di": "^6.3",
         "twig/twig": "^3.3",
-        "slim/twig-view": "^3.2"
+        "slim/twig-view": "^3.2",
+        "illuminate/database": "^8.55"
     }
 }
