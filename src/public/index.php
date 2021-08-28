@@ -4,7 +4,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Views\Twig;
 use Slim\Views\TwigMiddleware;
-require '../vendor/autoload.php';
+require __DIR__ . '/../../vendor/autoload.php';
 require '../config/eloquent.php';
 $container = new \DI\Container();
 $settings = require __DIR__ . '/../app/settings.php';
@@ -33,6 +33,18 @@ $app->get('/hello/{name}', function($request, $response, $args) {
 });
 $app->get('/', function(Request $request, Response $response) {
     $response->getBody()->write("slim is there");
+    return $response;
+});
+$app->post('/download', function(Request $request, Response $response) {
+    $response->getBody()->write("post here");
+    $target_dir = "/home/roma/slim/src/public/";
+    $filepath = $target_dir . basename($_FILES['MYfile']['name']);
+    print_r($filepath);
+    if (move_uploaded_file($_FILES['MYfile']['tmp_name'], $filepath)) {
+        echo "File is valid, and was successfully uploaded.\n";
+    } else {
+        echo "Possible file upload attack!\n";
+    }
     return $response;
 });
 $app->run();

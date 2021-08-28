@@ -1,5 +1,4 @@
 <?php
-require '../vendor/autoload.php';
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 $capsule = new Capsule();
@@ -24,14 +23,3 @@ $capsule::schema()->create('books', function($table)
      $table->timestamps(); 
 });
 */
-class Book extends Eloquent
-{
-    protected $fillable = ['title', 'pages_count', 'price', 'description'];
-    public string $title;
-    public int $pages_count;
-    public int $price;
-    public string $description;
-}
-$book = new Book();
-$book->fill(['title' => 'ROMA', 'pages_count'=> 2, 'price' => 3, 'description' => "random"]);
-$book->save();

@@ -1,7 +1,8 @@
 <?php
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use src\database\Connect;
-require __DIR__ . '/../../vendor/autoload.php';
+//use Summit\Database\Connect as Connect;
+require '../../../vendor/autoload.php';
+use Summit\database\Connect;
 Connect::launch();
 class Book extends Eloquent
 {
@@ -14,3 +15,4 @@ public string $description;
 $book = new Book();
 $book->fill(['title' => 'Gachi', 'pages_count'=> 4, 'price' => 30, 'description' => "second record in db"]);
 $book->save();
+

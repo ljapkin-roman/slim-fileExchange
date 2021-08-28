@@ -2,10 +2,10 @@
     "name": "roma/slim",
     "autoload": {
         "psr-4": {
-            "Roma\\Slim\\": "src/"
+            "Summit\\": "src/"
         },
         "classmap": [
-            "classes"
+            "src/classes"
         ]
     },
     "authors": [

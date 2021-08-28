@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container-fluid">
+    <form action="/download" method="POST" enctype="multipart/form-data">
+      <div class="mb-3">
+         <label for="formFile" class="form-label">Default file input example</label>
+         <input class="form-control" type="file" id="formFile" name="MYfile">
+      </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+{% endblock %}
