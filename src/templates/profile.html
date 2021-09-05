@@ -1,12 +1,15 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container-fluid">
-    <form action="/download" method="POST" enctype="multipart/form-data">
-      <div class="mb-3">
+    <div class="row mx-auto">
+        <h3 class="px-5"> Управляйте и делитесь файлами в своём облачном хранилище </h3>
+    </div>
+    <form action="/download" method="POST" enctype="multipart/form-data" class="form-group row">
+      <div class="mb-3 col-xs-4">
          <label for="formFile" class="form-label">Default file input example</label>
          <input class="form-control" type="file" id="formFile" name="MYfile">
       </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary col-sm-10">Submit</button>
     </form>
 </div>
 

@@ -13,18 +13,17 @@ AppFactory::setContainer($container);
 
 
 
-$currentPath = __DIR__ . '/../templates/';
+
 $container->set('view', function () {
-    return Twig::create('../templates', []);
+    return Twig::create('/../templates', []);
 });
-
-
 $app = AppFactory::create();
-
+/*
 $app->add(TwigMiddleware::createFromContainer($app));
 
 $middleware = require __DIR__ . '/../app/middleware.php';
 $middleware($app);
+*/
 
 $app->get('/hello/{name}', function($request, $response, $args) {
     return $this->get('view')->render($response, 'profile.html', [
@@ -32,9 +31,17 @@ $app->get('/hello/{name}', function($request, $response, $args) {
     ]);
 });
 $app->get('/', function(Request $request, Response $response) {
-    $response->getBody()->write("slim is there");
+    //return $this->get('view')->render($response, 'bootstrap-gp/index.html', []);
+    $response->getBody()->write("here here");
     return $response;
 });
+
+$app->get('/jet', function(Request $request, Response $response) {
+    //return $this->get('view')->render($response, 'bootstrap-gp/index.html', []);
+    $response->getBody()->write("koluga");
+    return $response;
+});
+
 $app->post('/download', function(Request $request, Response $response) {
     $response->getBody()->write("post here");
     $target_dir = "/home/roma/slim/src/public/";
