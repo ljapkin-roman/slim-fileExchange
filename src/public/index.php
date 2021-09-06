@@ -15,7 +15,7 @@ AppFactory::setContainer($container);
 
 
 $container->set('view', function () {
-    return Twig::create('/../templates', []);
+    return Twig::create('../templates', []);
 });
 $app = AppFactory::create();
 /*
@@ -31,16 +31,19 @@ $app->get('/hello/{name}', function($request, $response, $args) {
     ]);
 });
 $app->get('/', function(Request $request, Response $response) {
-    //return $this->get('view')->render($response, 'bootstrap-gp/index.html', []);
-    $response->getBody()->write("here here");
+    return $this->get('view')->render($response, 'bootstrap-gp/index.html', []);
     return $response;
 });
 
 $app->get('/jet', function(Request $request, Response $response) {
-    //return $this->get('view')->render($response, 'bootstrap-gp/index.html', []);
-    $response->getBody()->write("koluga");
+    return $this->get('view')->render($response, 'bootstrap-gp/jet.html', []);
     return $response;
 });
+
+$app->get('/css/style', function (Request $request, Response $response) {
+    require '../templates/bootstrap-gp/css/styles.css';
+});
+
 
 $app->post('/download', function(Request $request, Response $response) {
     $response->getBody()->write("post here");
