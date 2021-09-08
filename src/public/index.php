@@ -35,10 +35,6 @@ $app->get('/', function(Request $request, Response $response) {
     return $response;
 });
 
-$app->get('/jet', function(Request $request, Response $response) {
-    return $this->get('view')->render($response, 'bootstrap-gp/jet.html', []);
-    return $response;
-});
 
 $app->get('/css/style', function (Request $request, Response $response) {
     require '../templates/bootstrap-gp/css/styles.css';
