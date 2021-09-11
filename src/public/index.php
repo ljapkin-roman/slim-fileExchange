@@ -12,8 +12,6 @@ $settings($container);
 AppFactory::setContainer($container);
 
 
-
-
 $container->set('view', function () {
     return Twig::create('../templates', []);
 });
@@ -32,6 +30,10 @@ $app->get('/hello/{name}', function($request, $response, $args) {
 });
 $app->get('/', function(Request $request, Response $response) {
     return $this->get('view')->render($response, 'bootstrap-gp/index.html', []);
+    return $response;
+});
+$app->post('/form-control', function (Request $request, Response $response) {
+    return $this->get('view')->render($response, 'bootstrap-gp/form-control.php', []);
     return $response;
 });
 
