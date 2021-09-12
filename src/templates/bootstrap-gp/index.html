@@ -71,10 +71,14 @@
                 </div>
             </div>
             <div class="container position-relative">
-                <form action="/form-control" method="post">
+                <form action="/post-control" method="post"  enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="formFile" class="form-label">Default file input example</label>
-                        <input class="form-control" type="file" id="formFile">
+                        <input class="form-control" type="file" id="formFile" name="file">
+                    </div>
+                    <div class="mb-3">
+                        <label for="forText" class="form-label">Default file input example</label>
+                        <input class="form-control" type="text" id="forText" name="simpleText">
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>

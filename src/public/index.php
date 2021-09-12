@@ -4,6 +4,8 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Views\Twig;
 use Slim\Views\TwigMiddleware;
+use Summit\TwigFunction\FirstFunction as FirstFunction;
+use Slim\Views\PhpRenderer as PhpRenderer;
 require __DIR__ . '/../../vendor/autoload.php';
 require '../config/eloquent.php';
 $container = new \DI\Container();
@@ -33,8 +35,14 @@ $app->get('/', function(Request $request, Response $response) {
     return $response;
 });
 $app->post('/form-control', function (Request $request, Response $response) {
-    return $this->get('view')->render($response, 'bootstrap-gp/form-control.php', []);
+    return $this->get('view')->render($response, 'bootstrap-gp/form-control.html.twig', []);
     return $response;
+});
+
+$app->post('/post-control', function (Request $request, Response $response, $args) {
+    $renderer = new PhpRenderer('../templates');
+    return $renderer->render($response, "template.php", $args);
+
 });
 
 
