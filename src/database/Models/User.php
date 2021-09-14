@@ -1,5 +1,5 @@
 <?php
-require '../config/eloquent.php';
+require '../Config/eloquent.php';
 
 use Illuminate\Database\Capsule\Manager as Capsule;
 Capsule::schema()->create('users', function ($table){

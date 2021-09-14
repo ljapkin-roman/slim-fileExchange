@@ -1,13 +1,8 @@
 <?php
-use Twig\Loader\FilesystemLoader;
-class Experiment
-{
-   public static $value;
-
-}
-$expo = new Experiment();
-$file = '../templates';
-echo is_dir($file);
-
+require __DIR__ . '/../../vendor/autoload.php';
+use Summit\Config\Bootstrap;
+use Summit\classes\User;
+$hope = Bootstrap::connect();
+$user = User::Create([    'name' => "Kshiitj Soni",    'email' => "kshitij206@gmail.com",    'password' => password_hash("1234",PASSWORD_BCRYPT), ]);
 
 

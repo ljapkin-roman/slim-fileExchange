@@ -7,7 +7,7 @@ use Slim\Views\TwigMiddleware;
 use Summit\TwigFunction\FirstFunction as FirstFunction;
 use Slim\Views\PhpRenderer as PhpRenderer;
 require __DIR__ . '/../../vendor/autoload.php';
-require '../config/eloquent.php';
+require '../Config/eloquent.php';
 $container = new \DI\Container();
 $settings = require __DIR__ . '/../app/settings.php';
 $settings($container);
@@ -43,6 +43,16 @@ $app->post('/post-control', function (Request $request, Response $response, $arg
     $renderer = new PhpRenderer('../templates');
     return $renderer->render($response, "template.php", $args);
 
+});
+
+$app->get('/auth', function (Request $request, Response $response, $args) {
+    $renderer = new PhpRenderer('../templates');
+    return $renderer->render($response, "authentication.php", $args);
+
+});
+$app->post('/validation', function (Request $request, Response $response, $args) {
+    $renderer = new PhpRenderer('../templates');
+    return $renderer->render($response, 'validation.php', $args);
 });
 
 

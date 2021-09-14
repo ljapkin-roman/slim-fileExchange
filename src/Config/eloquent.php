@@ -12,14 +12,4 @@ $capsule->addConnection([
 
 $capsule->setAsGlobal();
 $capsule->bootEloquent();
-/*
-$capsule::schema()->create('books', function($table)
-{
-    $table->increments('id');
-     $table->string('title', 30);
-     $table->integer('pages_count');
-     $table->decimal('price', 5, 2);
-     $table->text('description');
-     $table->timestamps(); 
-});
-*/
+
