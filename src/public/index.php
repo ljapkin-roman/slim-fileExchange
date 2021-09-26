@@ -6,6 +6,7 @@ use Slim\Views\Twig;
 use Slim\Views\TwigMiddleware;
 use Summit\TwigFunction\FirstFunction as FirstFunction;
 use Slim\Views\PhpRenderer as PhpRenderer;
+use Summit\Models\Model_Authentication as Model_Auth;
 require __DIR__ . '/../../vendor/autoload.php';
 require '../Config/eloquent.php';
 $container = new \DI\Container();
@@ -31,10 +32,10 @@ $app->get('/hello/{name}', function($request, $response, $args) {
     ]);
 });
 $app->get('/', function(Request $request, Response $response) {
-    return $this->get('view')->render($response, 'bootstrap-gp/index.html', []);
+    return $this->get('view')->render($response, 'bootstrap-gp/index.html');
     return $response;
 });
-$app->post('/form-control', function (Request $request, Response $response) {
+$app->get('/form-control', function (Request $request, Response $response) {
     return $this->get('view')->render($response, 'bootstrap-gp/form-control.html.twig', []);
     return $response;
 });
@@ -47,12 +48,27 @@ $app->post('/post-control', function (Request $request, Response $response, $arg
 
 $app->get('/auth', function (Request $request, Response $response, $args) {
     $renderer = new PhpRenderer('../templates');
-    return $renderer->render($response, "authentication.php", $args);
+    return $renderer->render($response, "authentication.php", );
 
 });
+
 $app->post('/validation', function (Request $request, Response $response, $args) {
     $renderer = new PhpRenderer('../templates');
     return $renderer->render($response, 'validation.php', $args);
+});
+
+$app->post('/record', function (Request $request, Response $response, $args) {
+    $renderer = new PhpRenderer('../templates');
+    $model_auth = new Model_Auth();
+    $output = $model_auth->validation($_POST);
+    if (!empty($output['errors']))
+    {
+        return $renderer->render($response, "authentication.php", $output);
+    }
+    $model_auth->do_record($_POST);
+    return $renderer->render($response, "success.php", $args);
+
+
 });
 
 

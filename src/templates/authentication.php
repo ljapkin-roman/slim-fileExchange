@@ -9,7 +9,7 @@ if (isset($data['data'])) {
 }
 
 ?>
-<form action="/validation" method="post">
+<form action="/record" method="post">
     <p>
         <label for="first_name"> First name: </label>
         <input id="first_name" type='text' name="first_name"
