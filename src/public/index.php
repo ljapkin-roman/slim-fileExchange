@@ -40,7 +40,7 @@ $app->get('/form-control', function (Request $request, Response $response) {
     return $response;
 });
 
-$app->post('/post-control', function (Request $request, Response $response, $args) {
+$app->get('/post-control', function (Request $request, Response $response, $args) {
     $renderer = new PhpRenderer('../templates');
     return $renderer->render($response, "template.php", $args);
 
