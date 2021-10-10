@@ -5,9 +5,9 @@ use Summit\Config\Bootstrap;
 
 class Model
 {
-    protected object $connect_DB;
+    protected object $database;
     public function __construct()
     {
-        $this->connect_DB = Bootstrap::connect();
+        $this->database = Bootstrap::connect();
     }
 }

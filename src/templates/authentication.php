@@ -1,6 +1,5 @@
 <h3> Form for register </h3>
 <?php
-session_start();
 if (isset($data['errors'])) {
     $errors = $data['errors'];
 }
@@ -106,5 +105,6 @@ if (isset($data['data'])) {
     <input type='submit' value='Submit'>
 </form>
 <?php
+
 print_r($_COOKIE);
 ?>

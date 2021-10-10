@@ -7,6 +7,7 @@ use Slim\Views\TwigMiddleware;
 use Summit\TwigFunction\FirstFunction as FirstFunction;
 use Slim\Views\PhpRenderer as PhpRenderer;
 use Summit\Models\Model_Authentication as Model_Auth;
+use Summit\Models\Model_Login as Model_Login;
 require __DIR__ . '/../../vendor/autoload.php';
 require '../Config/eloquent.php';
 $container = new \DI\Container();
@@ -49,6 +50,28 @@ $app->get('/post-control', function (Request $request, Response $response, $args
 $app->get('/auth', function (Request $request, Response $response, $args) {
     $renderer = new PhpRenderer('../templates');
     return $renderer->render($response, "authentication.php", );
+
+});
+
+$app->get('/login', function (Request $request, Response $response, $args) {
+    $renderer = new PhpRenderer('../templates');
+    return $renderer->render($response, "login.php", );
+
+});
+
+$app->post('/is-user-exist', function (Request $request, Response $response, $args) {
+    $email = htmlentities($request->getParsedBody()['email']);
+    $password = htmlentities($request->getParsedBody()['password']);
+    $model_login = new Model_Login();
+    $dataUser = $model_login->isUserValid($email, $password);
+    if (empty($dataUser['errors']))
+    {
+        $renderer = new PhpRenderer('../templates');
+        return $renderer->render($response, "success.php", $dataUser['session']);
+    }
+    else {
+        print_r($dataUser['errors']);
+    }
 
 });
 
