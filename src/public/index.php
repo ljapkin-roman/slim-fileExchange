@@ -15,7 +15,7 @@ $settings = require __DIR__ . '/../app/settings.php';
 $settings($container);
 AppFactory::setContainer($container);
 
-
+session_start();
 $container->set('view', function () {
     return Twig::create('../templates', []);
 });
@@ -33,12 +33,17 @@ $app->get('/hello/{name}', function($request, $response, $args) {
     ]);
 });
 $app->get('/', function(Request $request, Response $response) {
-    return $this->get('view')->render($response, 'bootstrap-gp/index.html');
-    return $response;
+    $data = $request->getParsedBody();
+    return $this->get('view')->render($response, 'bootstrap-gp/index.html', ['name' => $name ]);
 });
 $app->get('/form-control', function (Request $request, Response $response) {
     return $this->get('view')->render($response, 'bootstrap-gp/form-control.html.twig', []);
     return $response;
+});
+
+$app->get('/begin', function($request, $response, $args) {
+    $renderer = new PhpRenderer('../templates');
+    return $renderer->render($response, "begin.php", ['session' => $_SESSION]);
 });
 
 $app->get('/post-control', function (Request $request, Response $response, $args) {
