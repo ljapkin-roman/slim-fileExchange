@@ -21,6 +21,7 @@
         "twig/twig": "^3.3",
         "slim/twig-view": "^3.2",
         "illuminate/database": "^8.55",
-        "slim/php-view": "^3.1"
+        "slim/php-view": "^3.1",
+        "james-heinrich/getid3": "^1.9"
     }
 }

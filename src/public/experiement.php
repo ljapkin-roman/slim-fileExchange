@@ -7,7 +7,11 @@ use Summit\Config\Bootstrap;
 use Summit\Models\Model_Authentication as Auth;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Summit\Models\Model_Login as Model_Login;
-$DB = Bootstrap::connect();
+use Summit\classes\CreateDownloadFilesTable;
+$Capsule
+
+
+    = Bootstrap::connect();
 /*
 $post = Post::Create(['text' => "my first post"]);
 $post->comments()->create(['text' => "are you kidding me"]);
@@ -19,15 +23,19 @@ Capsule::schema()->create('posts', function($table)
     $table->string('text');
     $table->timestamps();
 });
-*/
 Capsule::schema()->create('comments', function($table)
 {
     $table->increments('id');
     $table->string('text');
     $table->integer('post_id')->unsigned();
+    $table->json('properties');
     $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
     $table->timestamps();
 });
+*/
+$flights = new CreateDownloadFilesTable();
+$flights->up();
+
 
 
 

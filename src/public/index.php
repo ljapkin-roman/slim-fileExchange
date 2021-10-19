@@ -8,6 +8,7 @@ use Summit\TwigFunction\FirstFunction as FirstFunction;
 use Slim\Views\PhpRenderer as PhpRenderer;
 use Summit\Models\Model_Authentication as Model_Auth;
 use Summit\Models\Model_Login as Model_Login;
+use getID3;
 require __DIR__ . '/../../vendor/autoload.php';
 require '../Config/eloquent.php';
 $container = new \DI\Container();
@@ -107,11 +108,15 @@ $app->get('/css/style', function (Request $request, Response $response) {
 
 $app->post('/download', function(Request $request, Response $response) {
     $response->getBody()->write("post here");
+    $getID3 = new getID3();
     $target_dir = "/home/roma/slim/src/public/";
-    $filepath = $target_dir . basename($_FILES['MYfile']['name']);
+    $filepath = $target_dir . basename($_FILES['file']['name']);
     print_r($filepath);
-    if (move_uploaded_file($_FILES['MYfile']['tmp_name'], $filepath)) {
+    if (move_uploaded_file($_FILES['file']['tmp_name'], $filepath)) {
         echo "File is valid, and was successfully uploaded.\n";
+        $thisFileInfo = $getID3->analyze($_FILES['file']['name']);
+        print_r(json_encode($thisFileInfo
+        ));
     } else {
         echo "Possible file upload attack!\n";
     }
