@@ -46,6 +46,7 @@ class Model_Login extends Model
         $session['name'] = $user->name;
         $session['last_name'] = $user->last_name;
         $session['email'] = $user->email;
+        $session['id'] = $user->id;
         return $session;
     }
 }

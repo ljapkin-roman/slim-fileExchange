@@ -8,6 +8,7 @@ use Summit\Models\Model_Authentication as Auth;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Summit\Models\Model_Login as Model_Login;
 use Summit\classes\CreateDownloadFilesTable;
+use Summit\Models\Model_Files;
 $Capsule
 
 
@@ -33,8 +34,12 @@ Capsule::schema()->create('comments', function($table)
     $table->timestamps();
 });
 */
-$flights = new CreateDownloadFilesTable();
-$flights->up();
+
+$files = new Model_Files();
+$files->do_record(['kek' => 'cheburek']);
+//$creator = new CreateDownloadFilesTable();
+//$creator->up();
+
 
 
 

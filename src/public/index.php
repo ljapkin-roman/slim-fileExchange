@@ -8,6 +8,7 @@ use Summit\TwigFunction\FirstFunction as FirstFunction;
 use Slim\Views\PhpRenderer as PhpRenderer;
 use Summit\Models\Model_Authentication as Model_Auth;
 use Summit\Models\Model_Login as Model_Login;
+use Summit\Models\Model_Files;
 use getID3;
 require __DIR__ . '/../../vendor/autoload.php';
 require '../Config/eloquent.php';
@@ -36,6 +37,7 @@ $app->get('/hello/{name}', function($request, $response, $args) {
 $app->get('/', function(Request $request, Response $response) {
     $data = $request->getParsedBody();
     return $this->get('view')->render($response, 'bootstrap-gp/index.html', ['name' => $name ]);
+
 });
 $app->get('/form-control', function (Request $request, Response $response) {
     return $this->get('view')->render($response, 'bootstrap-gp/form-control.html.twig', []);
@@ -63,6 +65,16 @@ $app->get('/login', function (Request $request, Response $response, $args) {
     $renderer = new PhpRenderer('../templates');
     return $renderer->render($response, "login.php", );
 
+});
+
+$app->get('/session', function (Request $request, Response $response, $args) {
+    $renderer = new PhpRenderer('../templates');
+    return $renderer->render($response, "Basic.php", );
+});
+
+$app->get('/get-token', function (Request $request, Response $response, $args) {
+    $renderer = new PhpRenderer('../templates');
+    return $renderer->render($response, "token.php", );
 });
 
 $app->post('/is-user-exist', function (Request $request, Response $response, $args) {
@@ -111,12 +123,13 @@ $app->post('/download', function(Request $request, Response $response) {
     $getID3 = new getID3();
     $target_dir = "/home/roma/slim/src/public/";
     $filepath = $target_dir . basename($_FILES['file']['name']);
-    print_r($filepath);
     if (move_uploaded_file($_FILES['file']['tmp_name'], $filepath)) {
         echo "File is valid, and was successfully uploaded.\n";
-        $thisFileInfo = $getID3->analyze($_FILES['file']['name']);
-        print_r(json_encode($thisFileInfo
-        ));
+        $mime_type = mime_content_type($_FILES['file']['name']);
+        $data = ['mime_type' => $mime_type, 'user_id' => $_SESSION['user_id'],
+            'name' => $_FILES['file']['name'] ];
+        $model_file = new Model_Files();
+        $model_file->do_record($data);
     } else {
         echo "Possible file upload attack!\n";
     }
