@@ -2,6 +2,7 @@
 use Slim\Factory\AppFactory;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Slim\Views\Twig;
 use Slim\Views\TwigMiddleware;
 use Summit\TwigFunction\FirstFunction as FirstFunction;
@@ -9,7 +10,7 @@ use Slim\Views\PhpRenderer as PhpRenderer;
 use Summit\Models\Model_Authentication as Model_Auth;
 use Summit\Models\Model_Login as Model_Login;
 use Summit\Models\Model_Files;
-use getID3;
+use Summit\Models\ExampleMiddleware;
 require __DIR__ . '/../../vendor/autoload.php';
 require '../Config/eloquent.php';
 $container = new \DI\Container();
@@ -29,10 +30,11 @@ $middleware = require __DIR__ . '/../app/middleware.php';
 $middleware($app);
 */
 
-$app->get('/hello/{name}', function($request, $response, $args) {
-    return $this->get('view')->render($response, 'profile.html', [
-        'name' => $args['name']
-    ]);
+
+$app->get('/hello', function($request, $response, $args) {
+    echo $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+    //print_r($_SERVER['REQUEST_URI']);
+    return $response;
 });
 $app->get('/', function(Request $request, Response $response) {
     $data = $request->getParsedBody();
@@ -80,8 +82,9 @@ $app->get('/get-token', function (Request $request, Response $response, $args) {
 $app->post('/is-user-exist', function (Request $request, Response $response, $args) {
     $email = htmlentities($request->getParsedBody()['email']);
     $password = htmlentities($request->getParsedBody()['password']);
+    $host = $request->getUri()->getHost();
     $model_login = new Model_Login();
-    $dataUser = $model_login->isUserValid($email, $password);
+    $dataUser = $model_login->isUserValid($email, $password, $host);
     if (empty($dataUser['errors']))
     {
         $renderer = new PhpRenderer('../templates');
@@ -117,10 +120,33 @@ $app->get('/css/style', function (Request $request, Response $response) {
     require '../templates/bootstrap-gp/css/styles.css';
 });
 
+$mw = function ($request, $response, $next) {
+    $response->getBody()->write('BEFORE');
+    $response = $next($request, $response);
+    $response->getBody()->write('AFTER');
+    return $response;
+};
+
+$app->get('/middle', function (Request $request, Response $response, $args) {
+      $response->getBody()->write('middleware');
+      return $response;
+})->add(new \Summit\Models\CheckUserMiddleware());
+
 
 $app->post('/download', function(Request $request, Response $response) {
-    $response->getBody()->write("post here");
-    $getID3 = new getID3();
+    $user_session = $_COOKIE['PHPSESSID'];
+    if ($_SESSION['PHPSESSID'] === $user_session)
+
+    {
+        print_r("The session with the id session is exist");
+        echo '<br >';
+    }
+    else {
+        print_r("This session in not exist");
+        echo '<br >';
+        header('Location: http://www.example.com/');
+    }
+
     $target_dir = "/home/roma/slim/src/public/";
     $filepath = $target_dir . basename($_FILES['file']['name']);
     if (move_uploaded_file($_FILES['file']['tmp_name'], $filepath)) {
@@ -135,4 +161,5 @@ $app->post('/download', function(Request $request, Response $response) {
     }
     return $response;
 });
+
 $app->run();
