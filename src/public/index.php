@@ -37,8 +37,19 @@ $app->get('/hello', function($request, $response, $args) {
     return $response;
 });
 $app->get('/', function(Request $request, Response $response) {
-    $data = $request->getParsedBody();
-    return $this->get('view')->render($response, 'bootstrap-gp/index.html', ['name' => $name ]);
+    $info_user['name'] = 'guest';
+    if (!empty($_COOKIE['user_id'])) {
+        echo("<br>");
+        $id_session = $_COOKIE['PHPSESSID'];
+        $set = [];
+        if ($_SESSION['PHPSESSID'] == $_COOKIE['PHPSESSID'])
+        {
+            $set = $_SESSION;
+        }
+        $info_user['name'] = $_SESSION['name'];
+    }
+    $renderer = new PhpRenderer('../templates');
+    return $renderer->render($response, 'welcome.php', $info_user);
 
 });
 $app->get('/form-control', function (Request $request, Response $response) {
@@ -76,7 +87,7 @@ $app->get('/session', function (Request $request, Response $response, $args) {
 
 $app->get('/get-token', function (Request $request, Response $response, $args) {
     $renderer = new PhpRenderer('../templates');
-    return $renderer->render($response, "token.php", );
+    return $renderer->render($response, "welcome.php", );
 });
 
 $app->post('/is-user-exist', function (Request $request, Response $response, $args) {
@@ -99,6 +110,22 @@ $app->post('/is-user-exist', function (Request $request, Response $response, $ar
 $app->post('/validation', function (Request $request, Response $response, $args) {
     $renderer = new PhpRenderer('../templates');
     return $renderer->render($response, 'validation.php', $args);
+});
+
+$app->get('/name-in-top', function (Request $request, Response $response, $args) {
+    $info_user['name'] = 'guest';
+    if (!empty($_COOKIE['user_id'])) {
+        echo("<br>");
+        $id_session = $_COOKIE['PHPSESSID'];
+        $set = [];
+        if ($_SESSION['PHPSESSID'] == $_COOKIE['PHPSESSID'])
+        {
+            $set = $_SESSION;
+        }
+        $info_user['name'] = $_SESSION['name'];
+    }
+    $renderer = new PhpRenderer('../templates');
+    return $renderer->render($response, 'welcome.php', $info_user);
 });
 
 $app->post('/record', function (Request $request, Response $response, $args) {
@@ -130,7 +157,7 @@ $mw = function ($request, $response, $next) {
 $app->get('/middle', function (Request $request, Response $response, $args) {
       $response->getBody()->write('middleware');
       return $response;
-})->add(new \Summit\Models\CheckUserMiddleware());
+});
 
 
 $app->post('/download', function(Request $request, Response $response) {
@@ -147,7 +174,7 @@ $app->post('/download', function(Request $request, Response $response) {
         header('Location: http://www.example.com/');
     }
 
-    $target_dir = "/home/roma/slim/src/public/";
+    $target_dir = "/home/roma/slim/src/public/files/";
     $filepath = $target_dir . basename($_FILES['file']['name']);
     if (move_uploaded_file($_FILES['file']['tmp_name'], $filepath)) {
         echo "File is valid, and was successfully uploaded.\n";

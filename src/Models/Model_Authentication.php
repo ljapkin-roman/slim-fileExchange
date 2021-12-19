@@ -26,6 +26,5 @@ class Model_Authentication extends Model
         $valid_user = new Valid_User();
         return $valid_user->action_validate($post_data);
 
-
     }
 }

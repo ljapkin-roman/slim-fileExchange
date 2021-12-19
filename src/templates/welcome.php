@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -20,6 +21,7 @@
         <nav class="navbar navbar-light bg-light static-top">
             <div class="container">
                 <a class="navbar-brand" href="#!">Start Bootstrap</a>
+                <a class="navbar-brand" href="#!">Welcome <?php print_r($data['name']); ?></a>
                 <div>
                      <a class="btn btn-primary" href="/auth">Sign Up</a>
                      <a class="btn btn-primary" href="/login">login</a>
@@ -83,7 +85,7 @@
                         <label for="forText" class="form-label">Default file input example</label>
                         <input class="form-control" type="text" id="forText" name="simpleText">
                     </div>
-                    <button type="submit" class="btn btn-primary" >Submit</button>
+                    <button type="submit" class="btn btn-primary" id="btn-submit" >Submit</button>
                 </form>
             </div>
         </header>
@@ -252,12 +254,12 @@
             const sentFile = document.querySelector('#download');
             const button = document.querySelector('#simple');
             sentFile.addEventListener('submit',  (e) => {
-                   console.log(" this user_id ", user_id);
-                   if (user_id === "") {
-                       e.preventDefault();
-                       alert(" Only registered users can download files");
-                   }
-                }
+    console.log(" this user_id ", user_id);
+    if (user_id === "") {
+        e.preventDefault();
+        alert(" Only registered users can download files");
+    }
+}
             );
 
 
@@ -294,5 +296,18 @@
         <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
         <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+        <script type="text/javascript">
+                let status_user = 'guest'
+                if(localStorage.getItem('user') !== 'true');
+                {
+                    status_user = 'user';
+                }
+
+                let btn_submit = document.getElementById('btn-submit');
+                btn_submit.addEventListener('mouseover', event => {
+                    console.log("click on button");
+                });
+
+        </script>
     </body>
 </html>
