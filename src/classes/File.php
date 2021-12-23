@@ -11,7 +11,7 @@ class File extends Eloquent
      * @var array
      */
     protected $fillable = [
-        'name', 'user_id', 'mime_type'
+        'name', 'user_id', 'mime_type', 'name_file', 'directory_destination'
     ];
     /**
      * The attributes that should be hidden for arrays.

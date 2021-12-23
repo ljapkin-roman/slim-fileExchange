@@ -8,6 +8,7 @@
    $_SESSION['token'] = $data['token'];
    $_SESSION['name'] = $data['name'];
    $_SESSION['last_name'] = $data['last_name'];
+   $_SESSION['user_id'] = $data['id'];
    $_SESSION['PHPSESSID'] = session_id();
    setcookie("PHPSESSID", session_id());
    print_r($_SESSION);

@@ -175,18 +175,26 @@ $app->post('/download', function(Request $request, Response $response) {
     }
 
     $target_dir = "/home/roma/slim/src/public/files/";
-    $filepath = $target_dir . basename($_FILES['file']['name']);
+    $mime_type = mime_content_type($_FILES['file']['tmp_name']);
+    $extension_file = explode('.', $_FILES['file']['name'])[1];
+    $random_name = explode('/', $_FILES['file']['tmp_name'])[2] . '.' . $extension_file;
+    $filepath = $target_dir . basename($_FILES['file']['tmp_name']) . '.'. $extension_file;
+    echo "<br>";
     if (move_uploaded_file($_FILES['file']['tmp_name'], $filepath)) {
         echo "File is valid, and was successfully uploaded.\n";
-        $mime_type = mime_content_type($_FILES['file']['name']);
         $data = ['mime_type' => $mime_type, 'user_id' => $_SESSION['user_id'],
-            'name' => $_FILES['file']['name'] ];
+            'name' => $_FILES['file']['name'], 'name_file' =>$random_name, 'directory_destination' => $target_dir ];
         $model_file = new Model_Files();
         $model_file->do_record($data);
+
     } else {
         echo "Possible file upload attack!\n";
     }
     return $response;
+});
+
+$app->get('/info', function (Request $request, Response $response) {
+    echo mime_content_type(__DIR__ . '/files/phph9dhk8');
 });
 
 $app->run();
