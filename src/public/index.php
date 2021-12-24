@@ -11,6 +11,7 @@ use Summit\Models\Model_Authentication as Model_Auth;
 use Summit\Models\Model_Login as Model_Login;
 use Summit\Models\Model_Files;
 use Summit\Models\ExampleMiddleware;
+use Summit\classes\ThumbImage;
 require __DIR__ . '/../../vendor/autoload.php';
 require '../Config/eloquent.php';
 $container = new \DI\Container();
@@ -175,15 +176,25 @@ $app->post('/download', function(Request $request, Response $response) {
     }
 
     $target_dir = "/home/roma/slim/src/public/files/";
+    $thumb_dir = "/home/roma/slim/src/public/thumb_files/";
     $mime_type = mime_content_type($_FILES['file']['tmp_name']);
     $extension_file = explode('.', $_FILES['file']['name'])[1];
     $random_name = explode('/', $_FILES['file']['tmp_name'])[2] . '.' . $extension_file;
     $filepath = $target_dir . basename($_FILES['file']['tmp_name']) . '.'. $extension_file;
-    echo "<br>";
+    $thumbName = 'thumb_'.$random_name;
+    $thumb_filepath = $thumb_dir . $thumbName;
+
     if (move_uploaded_file($_FILES['file']['tmp_name'], $filepath)) {
-        echo "File is valid, and was successfully uploaded.\n";
-        $data = ['mime_type' => $mime_type, 'user_id' => $_SESSION['user_id'],
-            'name' => $_FILES['file']['name'], 'name_file' =>$random_name, 'directory_destination' => $target_dir ];
+        echo "File is valid, and was successfully uploaded.";
+        $im = new ThumbImage($filepath);
+        $im->createThumb($thumb_filepath, 100);
+        $data = ['mime_type' => $mime_type,
+                 'user_id' => $_SESSION['user_id'],
+                 'name' => $_FILES['file']['name'],
+                 'name_file' => $random_name,
+                 'directory_destination' => $target_dir,
+                 'thumb_file' => $thumb_filepath
+                ];
         $model_file = new Model_Files();
         $model_file->do_record($data);
 
@@ -193,8 +204,12 @@ $app->post('/download', function(Request $request, Response $response) {
     return $response;
 });
 
-$app->get('/info', function (Request $request, Response $response) {
-    echo mime_content_type(__DIR__ . '/files/phph9dhk8');
+$app->get('/image', function (Request $request, Response $response) {
+    $im = new ThumbImage('files/phpknrrPM.jpg');
+
 });
 
+$app->get('/info', function (Request $request, Response $response) {
+    print_r(phpinfo());
+});
 $app->run();

@@ -28,7 +28,8 @@ class CreateDownloadFilesTable extends Migration
             $table->string('mime_type');
             $table->integer('user_id')->unsigned();
             $table->string('name_file');
-            $table->string(   'directory_destination');
+            $table->string('directory_destination');
+            $table->string('thumb_file');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

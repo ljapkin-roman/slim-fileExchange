@@ -21,6 +21,7 @@ class Model_Files extends Model
               'mime_type' => $post_data['mime_type'],
               'user_id' => $post_data['user_id'],
               'name_file' => $post_data['name_file'],
-              'directory_destination' => $post_data['directory_destination']]);
+              'directory_destination' => $post_data['directory_destination'],
+              'thumb_file' => $post_data['thumb_file']]);
     }
 }
